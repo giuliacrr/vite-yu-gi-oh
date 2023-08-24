@@ -1,22 +1,44 @@
 <script>
-export default {};
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      CardInfos: [],
+    };
+  },
+  methods: {
+    fetchCardInfos() {
+      const url =
+        "https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0";
+      axios.get(url).then((response) => {
+        this.CardInfos = response.data.data;
+      });
+    },
+  },
+  mounted() {
+    this.fetchCardInfos();
+  },
+};
 </script>
 
 <template>
   <div class="container bg-light mt-5 p-3 d-flex flex-wrap">
     <!--Card-->
-    <div class="card m-3">
+    <div class="card m-3" v-for="infoCarta in CardInfos">
       <!-- Card Image -->
       <img
-        src="https://images.ygoprodeck.com/images/cards/6850209.jpg"
+        :src="infoCarta.card_images[0].image_url"
         class="card-img-top"
         alt="carta"
       />
       <div class="card-body">
         <!-- Card Title -->
-        <h5 class="text-center text-white">Card name</h5>
+        <h5 class="titolo-carta text-center text-white">
+          {{ infoCarta.name }}
+        </h5>
         <!-- Card type -->
-        <p class="card-text text-center fw-bold">type</p>
+        <p class="card-text text-center fw-bold">{{ infoCarta.type }}</p>
       </div>
     </div>
     <!--End Card-->
@@ -28,8 +50,8 @@ export default {};
   background-color: #d48f38;
 }
 
-.card-title {
-  font-size: 0.9rem;
+.titolo-carta {
+  font-size: 1rem;
 }
 
 .card-text {
