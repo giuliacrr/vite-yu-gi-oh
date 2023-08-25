@@ -35,7 +35,8 @@ export default {
   <div class="container d-flex">
     <div class="select-bar mt-3">
       <select class="form-select" aria-label="Default select example">
-        <option selected>Select Archetype</option>
+        <option selected hidden>Select Archetype</option>
+        <option value="0">No Archetype</option>
         <option v-for="(CardArchetypes, i) in CardArchetypes" :value="1 + i++">
           {{ CardArchetypes.archetype_name }}
         </option>
@@ -44,9 +45,9 @@ export default {
   </div>
   <!--Bonus-->
   <div class="container mt-3">
-    <span class="cards-quantity text-white"
-      >{{ CardInfos.length }} cards found</span
-    >
+    <span class="cards-quantity text-white">
+      {{ CardInfos.length }} cards found
+    </span>
   </div>
   <div class="container bg-light mt-3 p-3 d-flex flex-wrap">
     <!--Card-->
