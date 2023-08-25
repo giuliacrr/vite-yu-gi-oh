@@ -31,6 +31,7 @@ export default {
 </script>
 
 <template>
+  <!--Filter-->
   <div class="container d-flex">
     <div class="select-bar mt-3">
       <select class="form-select" aria-label="Default select example">
@@ -40,6 +41,12 @@ export default {
         </option>
       </select>
     </div>
+  </div>
+  <!--Bonus-->
+  <div class="container mt-3">
+    <span class="cards-quantity text-white"
+      >{{ CardInfos.length }} cards found</span
+    >
   </div>
   <div class="container bg-light mt-3 p-3 d-flex flex-wrap">
     <!--Card-->
@@ -64,6 +71,13 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.cards-quantity {
+  background-color: #1e9e8f;
+  padding: 8px;
+  font-size: 1.2rem;
+  border-radius: 10px;
+}
+
 .select-bar {
   width: 250px;
 }
