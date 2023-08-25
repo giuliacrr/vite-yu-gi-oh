@@ -5,6 +5,7 @@ export default {
   data() {
     return {
       CardInfos: [],
+      CardArchetypes: [],
     };
   },
   methods: {
@@ -15,15 +16,32 @@ export default {
         this.CardInfos = response.data.data;
       });
     },
+    fetchCardArchetypes() {
+      const arc = "https://db.ygoprodeck.com/api/v7/archetypes.php";
+      axios.get(arc).then((response) => {
+        this.CardArchetypes = response.data;
+      });
+    },
   },
   mounted() {
     this.fetchCardInfos();
+    this.fetchCardArchetypes();
   },
 };
 </script>
 
 <template>
-  <div class="container bg-light mt-5 p-3 d-flex flex-wrap">
+  <div class="container d-flex">
+    <div class="select-bar mt-3">
+      <select class="form-select" aria-label="Default select example">
+        <option selected>Select Archetype</option>
+        <option v-for="(CardArchetypes, i) in CardArchetypes" :value="1 + i++">
+          {{ CardArchetypes.archetype_name }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="container bg-light mt-3 p-3 d-flex flex-wrap">
     <!--Card-->
     <div class="card m-3" v-for="infoCarta in CardInfos">
       <!-- Card Image -->
@@ -46,6 +64,10 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.select-bar {
+  width: 250px;
+}
+
 .card-body {
   background-color: #d48f38;
 }
