@@ -6,14 +6,24 @@ export default {
     return {
       CardInfos: [],
       CardArchetypes: [],
+      SelectArchetypeCards: "",
+      metaArray: [],
     };
   },
   methods: {
     fetchCardInfos() {
-      const url =
-        "https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0";
+      let url = "";
+      if (
+        this.SelectArchetypeCards === "" ||
+        this.SelectArchetypeCards === undefined
+      ) {
+        url = "https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0";
+      } else {
+        url = `https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${this.SelectArchetypeCards}&num=20&offset=0`;
+      }
       axios.get(url).then((response) => {
         this.CardInfos = response.data.data;
+        this.metaArray = response.data.meta;
       });
     },
     fetchCardArchetypes() {
@@ -21,6 +31,10 @@ export default {
       axios.get(arc).then((response) => {
         this.CardArchetypes = response.data;
       });
+    },
+    selectArchetype() {
+      if (this.CardArchetypes.archetype_name === "") {
+      }
     },
   },
   mounted() {
@@ -34,19 +48,27 @@ export default {
   <!--Filter-->
   <div class="container d-flex">
     <div class="select-bar mt-3">
-      <select class="form-select" aria-label="Default select example">
+      <select
+        class="form-select"
+        v-model="SelectArchetypeCards"
+        aria-label="Default select example"
+      >
         <option selected hidden>Select Archetype</option>
         <option value="0">No Archetype</option>
-        <option v-for="(CardArchetypes, i) in CardArchetypes" :value="1 + i++">
-          {{ CardArchetypes.archetype_name }}
+        <option
+          v-for="SingleArchetype in CardArchetypes"
+          :value="SingleArchetype.archetype_name"
+        >
+          {{ SingleArchetype.archetype_name }}
         </option>
       </select>
+      <button @click="fetchCardInfos()">Cerca</button>
     </div>
   </div>
   <!--Bonus-->
   <div class="container mt-3">
     <span class="cards-quantity text-white">
-      {{ CardInfos.length }} cards found
+      {{ this.metaArray.total_rows }} cards found
     </span>
   </div>
   <div class="container bg-light mt-3 p-3 d-flex flex-wrap">
