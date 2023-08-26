@@ -3,7 +3,7 @@ export default {};
 </script>
 
 <template>
-  <nav>
+  <nav id="header">
     <div class="d-flex align-items-center bg-light">
       <div>
         <img
